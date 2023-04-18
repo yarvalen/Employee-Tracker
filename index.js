@@ -40,20 +40,20 @@ const options = [
                 value: 'addRole'
             },
             {
-                name: 'Quit',
-                value: 'quit'
+                name: 'Leave',
+                value: 'leave'
             }
         ]
     }
 ]
 
 function viewEmployees() {
-    const viewEmployee = `SELECT employee.id, employee.first_name, employee.last_name....`
+    const viewEmployee = `SELECT employee.id, employee.first_name, employee.last_name,role.title,department.name,role.salary FROM employee LEFT JOIN role on employee.role_id=role.id LEFT JOIN department on role.department_id=department.id;`
     db.query(viewEmployee, (err, data) => {
         if (err)  {
              throw err
         }
-        console.table(results)
+        console.table(data)
     
     })
 }
@@ -68,11 +68,12 @@ function viewDepartments(){
 
 }
 function viewRoles() {
-    db.query(`SELECT role.id, role.title, role.salary, department.name AS department_name FROM role INNER JOIN department ON role.department_id = department.id`,
-    (err, data) => {
+    
+    db.query(`SELECT role.id, role.title, role.salary, department.name AS department_name FROM role LEFT JOIN department ON role.department_id = department.id`,(err,data) => {
         if (err) {
-            throw err
+            console.error(err)
         }
+        console.log('hello')
         console.table(data);
     })
 }
@@ -81,15 +82,17 @@ function init() {
     inquirer
         .prompt(options)
         .then((response) => {
-            
-            switch (response.action) {
+            console.log(response)
+            switch (response.choice) {
                 case "viewEmployees":
                     viewEmployees()
                     break
                 case "viewDepartments":
+                   
                     viewDepartments()
                     break
                 case "viewRoles":
+                    
                     viewRoles()
                     break
                 case "addEmployee":
