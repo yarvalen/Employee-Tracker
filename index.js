@@ -9,31 +9,35 @@ require ("console.table")
 // const departments = require('.departments')
 
 //Array of questions for user input
-const menu = [
+const options = [
     {
         type: 'list',
         name: 'choice',
-        message: 'What would you like to do?',
+        message: 'What are you looking for?',
         choices: [
             {
                 name: 'View all employees',
                 value: 'viewEmployees'
             },
             {
-                name: 'View all roles',
-                value: 'viewRoles'
-            },
-            {
-                name: 'Add role',
-                value: 'addRole'
-            },
-            {
                 name: 'View all departments',
                 value: 'viewDepartments'
             },
             {
+                name: 'View all roles',
+                value: 'viewRoles'
+            },
+            {
+                name: 'Add employee',
+                value: 'addEmployee'
+            },
+            {
                 name: 'Add departments',
                 value: 'addDepartment'
+            },
+            {
+                name: 'Add role',
+                value: 'addRole'
             },
             {
                 name: 'Quit',
@@ -55,18 +59,28 @@ function viewDepartments(){
 //function to initialize prompt
 function init() {
     inquirer
-        .prompt(menu)
-        .then(async (response) => {
-            let choice = response.choice;
-            //console.log(response)
-            //await init();
-            switch (choice) {
+        .prompt(options)
+        .then((response) => {
+            
+            switch (response.action) {
                 case "viewEmployees":
+                    viewEmployees()
                     break
                 case "viewDepartments":
                     viewDepartments()
                     break
-                
+                case "viewRoles":
+                    viewRoles()
+                    break
+                case "addEmployee":
+                    addEmployee()
+                    break
+                case "addDepartment":
+                    addDepartment()
+                    break
+                case "addRole":
+                    addRole()
+                    break
             }
         })
     }
