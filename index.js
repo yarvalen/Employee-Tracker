@@ -46,6 +46,17 @@ const options = [
         ]
     }
 ]
+
+function viewEmployees() {
+    const viewEmployee = `SELECT employee.id, employee.first_name, employee.last_name....`
+    db.query(viewEmployee, (err, data) => {
+        if (err)  {
+             throw err
+        }
+        console.table(results)
+    
+    })
+}
 function viewDepartments(){
     console.log('viewDepartments')
     db.query (`SELECT * FROM department`,(err, data)=>{
@@ -55,6 +66,15 @@ function viewDepartments(){
         console.table(data)
     })
 
+}
+function viewRoles() {
+    db.query(`SELECT role.id, role.title, role.salary, department.name AS department_name FROM role INNER JOIN department ON role.department_id = department.id`,
+    (err, data) => {
+        if (err) {
+            throw err
+        }
+        console.table(data);
+    })
 }
 //function to initialize prompt
 function init() {
