@@ -77,7 +77,96 @@ function viewRoles() {
         console.table(data);
     })
 }
-//function to initialize prompt
+
+const addNewEmployee = () => {
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: 'What is the first name of new employee?'
+                },
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: 'What is the last name of new employee?'
+                },
+                {
+                    type: 'list',
+                    name: 'role',
+                    message: 'What is the role id?',
+                    choices: roles,
+                },
+                {
+                    type: 'list',
+                    name: 'manager_id',
+                    message: 'Select the manager_id',
+                    choices: [1, 3, 5, 6, 7]
+                }
+            ])
+            .then((data) => {
+                console.log(data.role);
+                connection.query(
+                    'Insert INTO employee SET ?',
+                    {
+                        first_name: data.firstName,
+                        last_name: data.lastName,
+                        role_id: data.role,
+                        manager_id: data.managerId
+                    },
+
+
+function addDepartment() {
+    inquirer
+        .prompt(addDepartmentQ)
+        .then((response) => {
+            db.query(`INSERT INTO department (name) VALUES('${response.newDept}')`, (err, response) => {
+                if(err) throw err; 
+            })
+        })                  
+}
+
+function addRole() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter role title',
+            name: 'title',
+        },
+        {
+            type: 'input',
+            message: 'What is the salary?',
+            name: 'salary'
+        },
+        {
+            type: 'input',
+            message: 'What is the department_id',
+            name: 'id'
+        }
+    ])
+    .then((data) => {
+        connection.query(
+            `INSERT INTO role (id, title, salary, department_id) VALUES 
+        {data.role, data.salary, data.department_id},
+    
+    function (err) {
+                if (err) throw err;
+            }
+        );
+        console.log('added new role')
+    }
+    );
+});
+connection.query('SELECT * FROM role', (err, roles) => {
+    if (err) console.log(err);
+    roles = roles.map((role) => {
+        return {
+            role.title,
+            role.id,
+        };
+    });
+
+
 function init() {
     inquirer
         .prompt(options)
