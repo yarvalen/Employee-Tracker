@@ -14,15 +14,17 @@ CREATE TABLE role (
     salary DECIMAL NOT NULL,
     department_id INT NOT NULL,
     INDEX dep_ind (department_id),
-    FOREIGN KEY (department_id) REFERENCES department(id),
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INT NOT NULL,
     FOREIGN KEY (role_id) REFERENCES role(id),
-    manager_id INT NOT NULL,
-    FOREIGN KEY (manager_id) REFERENCES employee(id),
-);
+    manager_id INT,
+    FOREIGN KEY (manager_id),
+    REFERENCES (employee_id)
+    -- CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
+)
