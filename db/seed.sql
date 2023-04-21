@@ -18,11 +18,11 @@ INSERT INTO role
     ("Butcher",40000,1);
 
 
-INSERT INTO employee
+INSERT INTO employees
     (first_name,last_name,role_id,manager_id)
-    VALUES ("John","Doe", 1,1),
-    ("Peter","Smith",2,3),
+    VALUES ("John","Doe", 1,NULL),
+    ("Jeff","Taylor",3,NULL),
+    ("Peter","Smith",2,NULL),
     ("James","Moore",4,2),
-    ("Jeff","Taylor",3,5),
-    ("Scott","Watson",5,4);
+    ("Scott","Watson",5,1);
 

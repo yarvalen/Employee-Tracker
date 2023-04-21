@@ -2,7 +2,7 @@ const inquirer = require('inquirer')
 const db = require('./db/connection');
 require("console.table")
 
-//Array of questions for user input
+//Array questions for user 
 const options = [
     {
         type: 'list',
@@ -42,7 +42,7 @@ const options = [
 ]
 
 function viewEmployees() {
-    const viewEmployee = `SELECT employee.id, employee.first_name, employee.last_name,role.title,department.name,role.salary FROM employee LEFT JOIN role on employee.role_id=role.id LEFT JOIN department on role.department_id=department.id;`
+    const viewEmployee = `SELECT employees.id, employees.first_name, employees.last_name,role.title,department.name,role.salary FROM employees LEFT JOIN role on employees.role_id=role.id LEFT JOIN department on role.department_id=department.id;`
     db.query(viewEmployee, (err, data) => {
         if (err) {
             throw err
@@ -86,7 +86,8 @@ function addEmployee () {
             }
         ])
         .then((data) => {
-            console.log(db)
+            var first_name = data.firstName;
+            var last_name = data.lastName;
             db.query("SELECT * FROM role", (err, data) => {
                 const roles = data.map(({ id, title }) => ({
                     name: title,
@@ -108,9 +109,10 @@ function addEmployee () {
                 ])
                     .then((data) => {
                         console.log(data)
+                        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id)VALUES ("${first_name}","${last_name}","${data.role}", "${data.manager_id}")`)
                     })
             })
-            db.query(`Insert INTO employee (role, manager_id)VALUES (${data.role}, ${data.manager_id})`)
+            
         })
 }
 
@@ -159,13 +161,6 @@ function addRole() {
             }
             );
         };
-        db.query("SELECT * FROM role", (err, data) => {
-            const roles = data.map(({ id, title }) => ({
-                name: title,
-                value: id
-            }))
-        });
-
 
 function init() {
     inquirer
@@ -177,11 +172,9 @@ function init() {
                     viewEmployees()
                     break
                 case "viewDepartments":
-
                     viewDepartments()
                     break
                 case "viewRoles":
-
                     viewRoles()
                     break
                 case "addEmployee":
