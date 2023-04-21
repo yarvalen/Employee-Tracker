@@ -1,12 +1,6 @@
 const inquirer = require('inquirer')
 const db = require('./db/connection');
 require("console.table")
-// //employee
-// const seeEmployees = require('.seeEmployees')
-// //roles
-// const roles = require('.roles')
-// //department
-// const departments = require('.departments')
 
 //Array of questions for user input
 const options = [
@@ -77,7 +71,7 @@ function viewRoles() {
     })
 }
 
-const addEmployee = () => {
+function addEmployee () {
     inquirer
         .prompt([
             {
@@ -92,6 +86,7 @@ const addEmployee = () => {
             }
         ])
         .then((data) => {
+            console.log(db)
             db.query("SELECT * FROM role", (err, data) => {
                 const roles = data.map(({ id, title }) => ({
                     name: title,
@@ -115,17 +110,9 @@ const addEmployee = () => {
                         console.log(data)
                     })
             })
-            // connection.query(
-            //     'Insert INTO employee SET ?',
-            //     {
-            //         first_name: data.firstName,
-            //         last_name: data.lastName,
-            //         role_id: data.role,
-            //         manager_id: data.managerId
-            //     },
+            db.query(`Insert INTO employee (role, manager_id)VALUES (${data.role}, ${data.manager_id})`)
         })
 }
-
 
 function addDepartment() {
     inquirer
@@ -157,31 +144,27 @@ function addRole() {
             name: 'salary'
         },
         {
-            type: 'input',
+            type: 'list',
             message: 'What is the department_id?',
-            name: 'id'
+            name: 'department_id'
         }
     ])
         .then((data) => {
-            //     connection.query(
-            //         `INSERT INTO role (id, title, salary, department_id) VALUES`,
-            //     {data.role, data.salary, data.department_id},function (err) {
-            //             if (err) throw err;
-            //         }
-            //     );
-            //     console.log('added new role')
-            // }
-            // );
+                db.query(
+        `INSERT INTO role (title, salary, department_id) VALUES(${data.title},${data.salary},${data.department_id});`,
+            function (err) {
+                        if (err) throw err;
+                    }
+                );
+            }
+            );
+        };
+        db.query("SELECT * FROM role", (err, data) => {
+            const roles = data.map(({ id, title }) => ({
+                name: title,
+                value: id
+            }))
         });
-}
-// connection.query('SELECT * FROM role', (err, roles) => {
-//     if (err) console.log(err);
-//     roles = roles.map((role) => {
-//         return {
-//             role.title,
-//             role.id,
-//         };
-//     });
 
 
 function init() {
