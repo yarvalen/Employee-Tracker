@@ -24,5 +24,6 @@ INSERT INTO employees
     ("Jeff","Taylor",3,NULL),
     ("Peter","Smith",2,NULL),
     ("James","Moore",4,2),
-    ("Scott","Watson",5,1);
+    ("Scott","Watson",5,1),
+    ("Adam","Johnson",5,1);
 

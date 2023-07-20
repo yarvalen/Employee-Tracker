@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "db": "mysql -u root < db/schema.sql",
+    "seed": "mysql -u root < db/seed.sql"
   },
   "repository": {
     "type": "git",
